@@ -1,6 +1,7 @@
 package com.dynamicdevz.rxjavadynamic.view.adapter
 
 import android.app.Activity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +13,7 @@ import com.dynamicdevz.rxjavadynamic.databinding.ListItemLayoutBinding
 import com.dynamicdevz.rxjavadynamic.model.data.Result
 import com.dynamicdevz.rxjavadynamic.util.ViewType
 
-class RickAdapter(private val vType: ViewType) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RickAdapter(private val vType: ViewType, private val delegate: RickDelegate) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface RickDelegate{
         fun selectCharacter(result: Result)
@@ -53,11 +54,14 @@ class RickAdapter(private val vType: ViewType) : RecyclerView.Adapter<RecyclerVi
         val result = listResults[position]
         val zBuilder = Zoomy.Builder(holder.itemView.context as Activity)
 
-//        holder.itemView.setOnClickListener {
-//            delegate.selectCharacter(result)
-//        }
+
 
         if(holder is GridViewHolder){
+            holder.binding.name.setOnClickListener {
+                delegate.selectCharacter(result)
+                Log.d("TAG_X", "clicked....")
+            }
+
             Glide.with(holder.itemView)
                 .applyDefaultRequestOptions(RequestOptions().centerCrop())
                 .load(result.image)
@@ -67,6 +71,11 @@ class RickAdapter(private val vType: ViewType) : RecyclerView.Adapter<RecyclerVi
             zBuilder.target(holder.binding.imageView)
 
         } else if(holder is ListViewHolder){
+            holder.binding.name.setOnClickListener {
+                delegate.selectCharacter(result)
+                Log.d("TAG_X", "clicked....")
+            }
+
             Glide.with(holder.itemView)
                 .applyDefaultRequestOptions(RequestOptions().centerCrop())
                 .load(result.image)

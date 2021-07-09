@@ -8,11 +8,11 @@ import com.dynamicdevz.rxjavadynamic.network.RickyRetrofit
 import com.dynamicdevz.rxjavadynamic.util.Constants.Companion.CACHE_KEY
 import com.google.gson.Gson
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RickyRepository {
-
-    private val rickyRetrofit = RickyRetrofit()
-
+@Singleton
+class RickyRepository @Inject constructor(private val rickyRetrofit: RickyRetrofit) {
     //Reading from online repo
     fun readFromRemoteSource(): Single<RickyResponse> = rickyRetrofit.getCharactersRemote()
 

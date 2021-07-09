@@ -7,10 +7,13 @@ import androidx.activity.viewModels
 import androidx.viewpager.widget.ViewPager
 import com.dynamicdevz.rxjavadynamic.R
 import com.dynamicdevz.rxjavadynamic.databinding.ActivityMainBinding
+import com.dynamicdevz.rxjavadynamic.model.data.Result
 import com.dynamicdevz.rxjavadynamic.view.adapter.HomeFragmentAdapter
+import com.dynamicdevz.rxjavadynamic.view.fragment.RickyDetailsFragment
+import com.dynamicdevz.rxjavadynamic.view.fragment.RickySelector
 import com.dynamicdevz.rxjavadynamic.viewmodel.RickyViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RickySelector {
 
     private val viewModel by viewModels<RickyViewModel>()
     private lateinit var binding: ActivityMainBinding
@@ -53,6 +56,17 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+    }
+
+    override fun openDetailsFragment(result: Result) {
+        val fragment = RickyDetailsFragment.getInstance(result)
+
+        Log.d("TAG_X", "odf")
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+            .add(R.id.details_frame, fragment)
+            .addToBackStack(fragment.tag)
+            .commit()
     }
 
 
